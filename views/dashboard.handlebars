@@ -1,0 +1,11 @@
+{{> nav}}
+
+<div class="text-center mt-2">
+    <h5>View your old posts</h5>
+    {{#each userPosts as |post|}}
+    {{> dashboard-post}}
+    {{/each}}
+    <a href="/newpost"><button class="btn btn-primary my-3 ">Make a post!</button></a>
+
+</div>
+
