@@ -10,7 +10,8 @@ router.get('/', async (req, res, next) => {
             {model: User, attributes: ['username']}
         ],
         raw: true,
-        nest: true
+        nest: true,
+        order: [['created_at', 'DESC']]
     })
 
     res.render('homepage', {
