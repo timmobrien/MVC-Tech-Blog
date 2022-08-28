@@ -2,9 +2,9 @@ const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/withAuth");
 const router = require('express').Router();
 
+// Fetches all posts from the database and passes them to the view
 router.get('/', async (req, res, next) => {
 
-    // Make post to test this
     const posts = await Post.findAll({
         include:[
             {model: User, attributes: ['username']}
@@ -19,13 +19,15 @@ router.get('/', async (req, res, next) => {
     })
 })
 
-
+// Renders the page to create a post
 router.get('/newpost', (req, res, next) => {
     res.render('create-post')
 })
 
+// Gets the data for a specific post
 router.get('/post/:id', async (req, res, next)=> {
     const dbPostData = await Post.findByPk(req.params.id, {
+        // Include associated data
         include:[
             {model: Comment,
                 include:[{model: User,
@@ -36,11 +38,11 @@ router.get('/post/:id', async (req, res, next)=> {
         ],
         nest: true
     })
-
+    // Format data
     const post = dbPostData.get({ plain: true })
 
 
-
+    // Render the data to the view
     res.render('individual-post', {
         post
     })
