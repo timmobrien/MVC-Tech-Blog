@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+// Post route to create new user
 router.post('/user/', async (req, res) => {
     try {
       const dbUserData = await User.create({
@@ -10,6 +11,7 @@ router.post('/user/', async (req, res) => {
   
       const user = dbUserData.get({plain: true})
 
+      // Save the user in the session
       req.session.save(() => {
         req.session.loggedIn = true;
         req.session.user_id = user.id
@@ -22,6 +24,7 @@ router.post('/user/', async (req, res) => {
     }
 });
 
+// Post route for user to login
 router.post('/user/login/', async (req, res) => {
     try {
       const dbUserData = await User.findOne({
@@ -61,6 +64,8 @@ router.post('/user/login/', async (req, res) => {
     }
 });
 
+
+// Route that deletes all items in session
 router.post('/user/logout', (req, res) => {
     if (req.session.loggedIn) {
       req.session.destroy(() => {

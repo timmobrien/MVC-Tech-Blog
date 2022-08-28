@@ -3,6 +3,7 @@ const { Post, User , Comment } = require('../models');
 
 const router = require('express').Router();
 
+// Renders the dashboard with the appropriate data
 router.get('/dashboard', async (req, res, next) => {
     const userPosts = await Post.findAll({
         where: {

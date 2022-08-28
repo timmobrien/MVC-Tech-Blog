@@ -1,8 +1,10 @@
 const { Post } = require('../../models');
+const withAuth = require('../../utils/withAuth');
 
 const router = require('express').Router();
 
-router.post('/post/', async (req, res) => {
+// Post route for new blog post
+router.post('/post/', withAuth, async (req, res) => {
     try {
 
         console.log(req.session.user_id)
@@ -22,7 +24,8 @@ router.post('/post/', async (req, res) => {
     }
 });
 
-router.put('/update/:id', (req, res, next) => {
+// Put route to edit an existing post
+router.put('/update/:id', withAuth, (req, res, next) => {
     Post.update(
         {
             title: req.body.title,
@@ -36,7 +39,8 @@ router.put('/update/:id', (req, res, next) => {
     )
 })
 
-router.delete("/delete/:id", async (req, res)=> {
+// Delete route to remove an existing post
+router.delete("/delete/:id", withAuth, async (req, res)=> {
     try {
         const destroyedData = await Post.destroy({
             where: {
@@ -57,8 +61,6 @@ router.delete("/delete/:id", async (req, res)=> {
         console.log(error)
         res.status(500).json(error)
     }
-    
-
 
 })
 

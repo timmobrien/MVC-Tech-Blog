@@ -1,6 +1,6 @@
 const { Post, User, Comment } = require("../models");
+const withAuth = require("../utils/withAuth");
 const router = require('express').Router();
-
 
 router.get('/', async (req, res, next) => {
 
@@ -45,13 +45,14 @@ router.get('/post/:id', async (req, res, next)=> {
     })
 })
 
-router.get('/edit/:id', async (req, res, next)=> {
+// Renders the edit page, passing the data so the previous post can still be seen
+router.get('/edit/:id', withAuth, async (req, res, next)=> {
     try {
         const post = await Post.findByPk(req.params.id,{
             raw:true,
             nest: true
         }) 
-        
+
         console.log(post)
         
         res.render('edit-post', {
@@ -64,7 +65,7 @@ router.get('/edit/:id', async (req, res, next)=> {
     
 }) 
 
-
+// Renders the login page
 router.get('/login', (req, res, next) => {
     if(req.session.loggedIn) {
         res.redirect('/');
@@ -74,6 +75,7 @@ router.get('/login', (req, res, next) => {
     res.render('log-in');
 })
 
+// Renders the register page
 router.get('/register', (req, res, next)=> {
     if(req.session.loggedIn) {
         res.redirect('/');

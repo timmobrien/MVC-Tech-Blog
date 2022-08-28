@@ -6,7 +6,6 @@
 	    <div class="col-md-8 col-md-offset-2">
 	        
     		<h1>Edit Post</h1>
-            {{log this}}
     		
     		<form id="edit-post-form">
     		    
@@ -35,5 +34,10 @@
 		
 	</div>
 </div>
+{{#if session.loggedIn}}
 
+<script src="../js/log-out.js"></script>
+
+
+{{/if}}
 <script src="../js/update-post.js"></script>
